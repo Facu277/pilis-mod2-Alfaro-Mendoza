@@ -5,6 +5,7 @@ const iconoTiempo = document.getElementById('iconWeather')
 const temperaturaMax = document.getElementById('temperaturaMax')
 const temperaturaMin = document.getElementById('temperaturaMin')
 
+var participantes=[]
 
 /* Funcion que obtiene de la api openweather los datos del pronostico de tiempo */
 async function pronosticoTiempo(){
@@ -36,21 +37,63 @@ async function pronosticoTiempo(){
     }
 }
 
+window.onload = cargarEventos;
 
-function obtenerDatos(){
-    var nombre = document.getElementById("nombre").value;
-    var apellido = document.getElementById("apellido").value;
-    var correo = document.getElementById("correo").value;
-    var telefono = document.getElementById("telefono").value;
-    var nombreEmprend = document.getElementById("nombreEmprendimiento").value;
-
-    let participantes = [
-        {nombres:nombre, apellidos:apellido, correos:correo, telefonos:telefono, nombreEmpresa: nombreEmprend}
-    ]
-
-    console.log(participantes)
+function cargarEventos(){
+    document.getElementById("registrarEmprendedores").addEventListener("submit", nuevoParticipante, false);
 }
 
+
+
+
+function nuevoParticipante(event){
+    event.preventDefault();
+
+    let nombre = document.getElementById("nombre").value;
+    let apellido = document.getElementById("apellido").value;
+    let correo = document.getElementById("correo").value;
+    let telefono = document.getElementById("telefono").value;
+    let nombrePyme = document.getElementById("nombreEmprendimiento").value;
+
+    var registrado={name:nombre ,surname:apellido, email:correo, phone:telefono, namePyme:nombrePyme}
+    participantes.push(registrado);
+    console.log(participantes)
+
+    let participantesJson = JSON.stringify(participantes);
+
+
+    let promise = new Promise(function(resolve,reject){
+        fetch('https://jsonplaceholder.typicode.com/posts', {
+            method: 'POST',
+            body:participantesJson
+        })
+    
+        .then(res => res.json())
+        .then(res=> {
+            console.log(res);
+        })
+        setTimeout(()=>resolve(),5000)
+    
+    })
+    .then(resp=> {
+        console.log("Termino el timeout.. ");
+    });
+
+
+
+
+    /* fetch('https://jsonplaceholder.typicode.com/posts', {
+        method: 'POST',
+        body:participantesJson
+    })
+
+    .then(res => res.json())
+    .then(res=> {
+        console.log(res);
+    })
+ */
+    console.log(participantesJson)
+}
 
 
 
