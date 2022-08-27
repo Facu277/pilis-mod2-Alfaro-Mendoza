@@ -82,16 +82,7 @@ function nuevoParticipante(event){
 
 
 
-    /* fetch('https://jsonplaceholder.typicode.com/posts', {
-        method: 'POST',
-        body:participantesJson
-    })
-
-    .then(res => res.json())
-    .then(res=> {
-        console.log(res);
-    })
- */
+    
     console.log(participantesJson)
 }
 
